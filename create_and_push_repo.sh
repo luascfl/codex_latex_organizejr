@@ -547,12 +547,17 @@ sanitize_repo_segment() {
   local value=$1
   value=${value//\//-}
   value=$(printf '%s' "$value" | tr '[:upper:]' '[:lower:]')
-  value=${value//[^a-z0-9-]/-}
+  value=${value//[^a-z0-9_-]/-}
   while [[ "$value" == *--* ]]; do
     value=${value//--/-}
   done
+  while [[ "$value" == *__* ]]; do
+    value=${value//__/_}
+  done
   value=${value##-}
   value=${value%%-}
+  value=${value##_}
+  value=${value%%_}
   if [[ -z "$value" ]]; then
     value="subfolder"
   fi
