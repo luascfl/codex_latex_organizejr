@@ -1,3 +1,6 @@
 [submodule "tmp_protagonize_evento_orientacao_profissional_organizejr"]
 	path = tmp_protagonize_evento_orientacao_profissional_organizejr
 	url = https://github.com/luascfl/tmp-protagonize-evento-orientacao-profissional-organizejr.git
+[submodule "tmp_relatorio_financeiro_organizejr"]
+	path = tmp_relatorio_financeiro_organizejr
+	url = https://github.com/luascfl/tmp-relatorio-financeiro-organizejr.git
