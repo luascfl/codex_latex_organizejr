@@ -1,6 +1,9 @@
 [submodule "tmp_protagonize_evento_orientacao_profissional_organizejr"]
 	path = tmp_protagonize_evento_orientacao_profissional_organizejr
 	url = https://github.com/luascfl/tmp_protagonize_evento_orientacao_profissional_organizejr.git
-[submodule "tmp_relatorio_financeiro_organizejr"]
-	path = tmp_relatorio_financeiro_organizejr
-	url = https://github.com/luascfl/tmp_relatorio_financeiro_organizejr.git
+[submodule "tmp_proposta_eleitoral_presidencia_2026_organizejr"]
+	path = tmp_proposta_eleitoral_presidencia_2026_organizejr
+	url = https://github.com/luascfl/tmp_proposta_eleitoral_presidencia_2026_organizejr.git
+[submodule "tmp_gestao_de_conhecimento_organizejr"]
+	path = tmp_gestao_de_conhecimento_organizejr
+	url = https://github.com/luascfl/tmp_gestao_de_conhecimento_organizejr.git

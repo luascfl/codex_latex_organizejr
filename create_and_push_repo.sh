@@ -89,17 +89,32 @@ ensure_token() {
   fi
 
   local token_file
-  for token_file in GITHUB_TOKEN GITHUB_TOKEN.txt; do
-    if [[ -f "$token_file" ]]; then
-      if load_token_from_file "$token_file"; then
-        export GITHUB_TOKEN
-        return
-      fi
+  if token_file=$(find_token_file); then
+    if load_token_from_file "$token_file"; then
+      export GITHUB_TOKEN
+      return
     fi
-  done
+  fi
 
   echo "Error: provide GITHUB_TOKEN via environment variable or file." >&2
   exit 1
+}
+
+find_token_file() {
+  local dir=$PWD candidate
+  while true; do
+    for candidate in "$dir/GITHUB_TOKEN" "$dir/GITHUB_TOKEN.txt"; do
+      if [[ -f "$candidate" ]]; then
+        printf "%s\n" "$candidate"
+        return 0
+      fi
+    done
+    if [[ "$dir" == "/" ]]; then
+      break
+    fi
+    dir=$(dirname "$dir")
+  done
+  return 1
 }
 
 load_token_from_file() {
@@ -355,7 +370,7 @@ ensure_single_subcontainer_ready() {
 
 ensure_submodule_repo_initialized() {
   local subdir=$1
-  if git -C "$subdir" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  if [[ -e "$subdir/.git" ]]; then
     return
   fi
   git -C "$subdir" init >/dev/null
@@ -418,16 +433,24 @@ record_subcontainer_commit() {
 push_submodule_with_credentials() {
   local subdir=$1 branch=${2:-main} output status
   if [[ "${GITHUB_REMOTE_PROTOCOL:-https}" == "https" ]]; then
-    output=$(run_with_https_credentials git -C "$subdir" push -u origin "$branch" 2>&1)
+    if output=$(run_with_https_credentials git -C "$subdir" push -u origin "$branch" 2>&1); then
+      status=0
+    else
+      status=$?
+    fi
   else
-    output=$(git -C "$subdir" push -u origin "$branch" 2>&1)
+    if output=$(git -C "$subdir" push -u origin "$branch" 2>&1); then
+      status=0
+    else
+      status=$?
+    fi
   fi
-  status=$?
   printf "%s\n" "$output"
   if [[ $status -ne 0 ]]; then
     if handle_large_file_push_rejection "$subdir" "$output"; then
       echo "Retrying submodule push for '$subdir' after enabling Git LFS..." >&2
-      return push_submodule_with_credentials "$subdir" "$branch"
+      push_submodule_with_credentials "$subdir" "$branch"
+      return $?
     fi
   fi
   return $status
@@ -795,11 +818,18 @@ run_git_with_credentials() {
 push_with_credentials() {
   local branch=$1 output status
   if [[ "${GITHUB_REMOTE_PROTOCOL:-https}" == "https" ]]; then
-    output=$(run_with_https_credentials git push -u origin "$branch" 2>&1)
+    if output=$(run_with_https_credentials git push -u origin "$branch" 2>&1); then
+      status=0
+    else
+      status=$?
+    fi
   else
-    output=$(git push -u origin "$branch" 2>&1)
+    if output=$(git push -u origin "$branch" 2>&1); then
+      status=0
+    else
+      status=$?
+    fi
   fi
-  status=$?
   printf "%s\n" "$output"
   if [[ $status -ne 0 && "$output" =~ non-fast-forward ]]; then
     echo "Push rejected (non-fast-forward). Trying automatic pull before retrying..." >&2
@@ -810,7 +840,8 @@ push_with_credentials() {
   if [[ $status -ne 0 ]]; then
     if handle_large_file_push_rejection "." "$output"; then
       echo "Retrying push after enabling Git LFS for large files..." >&2
-      return push_with_credentials "$branch"
+      push_with_credentials "$branch"
+      return $?
     fi
   fi
   return $status
