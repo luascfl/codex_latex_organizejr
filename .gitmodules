@@ -7,3 +7,6 @@
 [submodule "tmp_gestao_de_conhecimento_organizejr"]
 	path = tmp_gestao_de_conhecimento_organizejr
 	url = https://github.com/luascfl/tmp_gestao_de_conhecimento_organizejr.git
+[submodule "fonts"]
+	path = fonts
+	url = https://github.com/luascfl/fonts.git

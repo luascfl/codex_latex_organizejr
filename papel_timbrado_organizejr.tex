@@ -1,0 +1,310 @@
+% !TEX TS-program = xelatex
+\documentclass[12pt,a4paper,oneside]{abntex2}
+
+\usepackage[brazil]{babel}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{eso-pic}
+\usepackage{tikzpagenodes}
+\usepackage{ragged2e}
+\AtBeginDocument{\let\tt\ttfamily}
+
+\geometry{left=3cm,right=2cm,top=3cm,bottom=2cm}
+
+\definecolor{organizepurple}{HTML}{681582}
+\definecolor{organizegreen}{HTML}{62F3BC}
+\definecolor{textgray}{HTML}{1A1A1A}
+
+\IfFileExists{fonts/Open_Sans/OpenSans-Regular.ttf}{
+  \setmainfont{OpenSans}[
+    Path=fonts/Open_Sans/,
+    Extension=.ttf,
+    UprightFont=*-Regular,
+    ItalicFont=*-Italic,
+    BoldFont=*-Semibold,
+    BoldItalicFont=*-SemiboldItalic,
+    Ligatures=TeX
+  ]
+}{
+  \IfFontExistsTF{Open Sans}{
+    \setmainfont{Open Sans}[Ligatures=TeX]
+  }{
+    \setmainfont{Arial}[Ligatures=TeX]
+  }
+}
+
+\newfontfamily\OrganizeHeading[
+  Path=fonts/League_Spartan/static/,
+  Extension=.ttf,
+  UprightFont=*-SemiBold,
+  BoldFont=*-Black,
+  Ligatures=TeX
+]{LeagueSpartan}
+
+\newfontfamily\OrganizeAlt[
+  Path=fonts/Lexend_Deca/static/,
+  Extension=.ttf,
+  UprightFont=*-Regular,
+  BoldFont=*-SemiBold,
+  Ligatures=TeX
+]{LexendDeca}
+
+\OnehalfSpacing
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+\raggedbottom
+\justifying
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\titlespacing*{\section}{0pt}{1.5\baselineskip}{1.5\baselineskip}
+\titlespacing*{\subsection}{0pt}{1.5\baselineskip}{1.5\baselineskip}
+\titlespacing*{\subsubsection}{0pt}{1.5\baselineskip}{1.5\baselineskip}
+\setsecheadstyle{\OrganizeHeading\normalsize\bfseries}
+\setsubsecheadstyle{\OrganizeHeading\normalsize\bfseries}
+\setsubsubsecheadstyle{\OrganizeAlt\normalsize}
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+\setboolean{ABNTEXupperchapter}{true}
+\setboolean{ABNTEXuppersection}{true}
+\setboolean{ABNTEXuppersubsection}{false}
+\titleformat{\section}
+  {\OrganizeHeading\normalsize\bfseries\color{textgray}}
+  {\thesection}{0.5em}{\MakeUppercase}
+\titleformat{\subsection}
+  {\OrganizeHeading\normalsize\bfseries\color{textgray}}
+  {\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}
+  {\OrganizeAlt\normalsize\color{textgray}}
+  {\thesubsubsection}{0.5em}{}
+
+% Resumo/Abstract com título em estilo de seção (League Spartan 12pt, caixa alta, centralizado para pré-textuais)
+\newenvironment{organizeresumo}[1][\resumoname]{%
+  \SingleSpacing
+  \par\noindent{\centering\OrganizeHeading\normalsize\bfseries\MakeUppercase{#1}\par}\vspace{1.5\baselineskip}%
+}{\par\vspace{1.0\baselineskip}}
+
+\renewcommand{\resumoname}{RESUMO}
+\renewcommand{\abstractname}{ABSTRACT}
+\renewcommand{\contentsname}{SUMÁRIO}
+\renewcommand{\printtoctitle}[1]{%
+  \begin{center}
+    {\normalsize\bfseries\MakeUppercase{#1}}\par
+  \end{center}%
+}
+\renewcommand{\cftsectionfont}{\normalfont\bfseries\color{textgray}}
+\renewcommand{\cftsectionpagefont}{\normalfont\bfseries\color{textgray}}
+\renewcommand{\cftsubsectionfont}{\normalfont\bfseries\color{textgray}}
+\renewcommand{\cftsubsectionpagefont}{\normalfont\bfseries\color{textgray}}
+\renewcommand{\cftsubsubsectionfont}{\normalfont\color{textgray}}
+\renewcommand{\cftsubsubsectionpagefont}{\normalfont\color{textgray}}
+\setlength{\cftsectionindent}{0pt}
+\setlength{\cftsectionnumwidth}{1em}
+\setlength{\cftsubsectionindent}{0pt}
+\setlength{\cftsubsectionnumwidth}{1.6em}
+
+\renewenvironment{citacao}{%
+  \list{}{%
+    \listparindent=\parindent
+    \parsep=0pt plus 1pt
+    \leftmargin=4cm
+    \rightmargin=0cm
+  }%
+  \item\relax\fontsize{10}{15}\selectfont
+}{\endlist}
+
+\newlength{\organizebandheight}
+\setlength{\organizebandheight}{2.6cm}
+
+\newcommand{\organizerodape}{%
+  \parbox{\textwidth}{\centering
+    \OrganizeAlt\fontsize{9}{11}\selectfont\color{textgray}%
+    R. Silveira Martins, 2555 – Departamento de Educação (DEDC I), Cabula, Salvador – BA, CEP 41150-000\\%
+    \color{organizepurple}@organizejr \textbullet\ presidencia@organizejr.com}%
+}
+
+\setlength{\headheight}{15pt}
+\setlength{\headsep}{1cm}
+\setlength{\footskip}{1.2cm}
+
+\fancypagestyle{organize}{%
+  \fancyhf{}%
+  \fancyhead[R]{\OrganizeAlt\fontsize{10}{12}\selectfont\textcolor{white}{\thepage}}
+  \fancyfoot[C]{\organizerodape}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+\fancypagestyle{organizepre}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\organizerodape}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyhead[R]{\OrganizeAlt\fontsize{10}{12}\selectfont\thepage}
+  \fancyfoot[C]{\organizerodape}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+\pagestyle{organizepre}
+\aliaspagestyle{plain}{organizepre}
+\aliaspagestyle{chapter}{organizepre}
+\aliaspagestyle{simple}{organizepre}
+\aliaspagestyle{title}{organizepre}
+\aliaspagestyle{titlepage}{organizepre}
+\aliaspagestyle{abntheadings}{organizepre}
+\aliaspagestyle{empty}{organizepre}
+
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[organizepurple] (current page.north west) rectangle ([yshift=-\organizebandheight]current page.north east);
+    \node at ([yshift=-0.5\organizebandheight]current page.north) {\includegraphics[height=1.18cm]{logo_organizejr.png}};
+  \end{tikzpicture}%
+}
+
+\hypersetup{
+  pdftitle={Papel timbrado Organize Jr.},
+  pdfauthor={Organize Jr.},
+  pdfsubject={Modelo de timbrado em XeLaTeX + abnTeX2},
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=organizepurple
+}
+
+\newcommand{\nomeinstituicao}{Universidade do Estado da Bahia}
+\newcommand{\nomedepartamento}{Departamento de Educação}
+\newcommand{\nomecurso}{Empresa Júnior de Psicologia Organizacional da UNEB}
+\newcommand{\nomeautor}{[NOME]}
+\newcommand{\nomecidade}{Salvador}
+\newcommand{\anoacademico}{2025}
+\newcommand{\tituloprincipal}{[TITULO]}
+\newcommand{\tipodocumento}{Ofício}
+\newcommand{\nomedisciplina}{[DISCIPLINA]}
+\newcommand{\nomeorientador}{[ORIENTADOR]}
+
+\titulo{\OrganizeHeading\bfseries\normalsize\MakeUppercase{\tituloprincipal}}
+\autor{\OrganizeHeading\bfseries\normalsize\MakeUppercase{\nomeautor}}
+\instituicao{\OrganizeHeading\normalsize\MakeUppercase{\nomeinstituicao}\\\OrganizeHeading\normalsize\MakeUppercase{\nomedepartamento}\\\OrganizeHeading\normalsize\MakeUppercase{\nomecurso}}
+\tipotrabalho{\OrganizeHeading\normalsize\MakeUppercase{\tipodocumento}}
+\local{\OrganizeHeading\normalsize\nomecidade}
+\data{\OrganizeHeading\normalsize\anoacademico}
+
+\begin{document}
+\justifying
+\pagestyle{organizepre}
+
+\pretextual
+% Capa
+\begin{capa}
+  \pagestyle{organizepre}\thispagestyle{organizepre}
+  \begin{center}
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomeinstituicao}\par}
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomedepartamento}\par}
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomecurso}\par}
+    \vfill
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomeautor}\par}
+    \vspace{1.5cm}
+    {\OrganizeHeading\normalsize\MakeUppercase{\tituloprincipal}\par}
+    \vfill
+    {\OrganizeHeading\normalsize\nomecidade\par}
+    {\OrganizeHeading\normalsize\anoacademico\par}
+  \end{center}
+\end{capa}
+\clearpage\pagestyle{organize}\thispagestyle{organize}
+
+% Folha de rosto
+\begin{folhaderosto}
+  \pagestyle{organizepre}\thispagestyle{organizepre}
+  \pagenumbering{arabic}\setcounter{page}{1}
+  \SingleSpacing
+  {\centering\OrganizeHeading\normalsize\MakeUppercase{\nomeautor}\par}
+  \vspace{\fill}
+  {\centering\OrganizeHeading\normalsize\MakeUppercase{\tituloprincipal}\par}
+  \vspace{1.5cm}
+  {
+    \SingleSpacing
+    \leftskip=7cm
+    \parindent=0pt
+    \noindent Trabalho apresentado como requisito parcial na disciplina \nomedisciplina, sob orientação de \nomeorientador, no \nomecurso\ da \nomeinstituicao.\par
+  }
+  \vspace{\fill}
+  {\centering\OrganizeHeading\normalsize\nomecidade\par}
+  {\centering\OrganizeHeading\normalsize\anoacademico\par}
+\end{folhaderosto}
+
+\pagestyle{organizepre}
+\aliaspagestyle{plain}{organizepre}
+
+% Resumo e Abstract
+\clearpage
+\begin{organizeresumo}
+\thispagestyle{organizepre}
+Texto do resumo sem recuo.\\
+\textbf{Palavras-chave:} termo 1; termo 2; termo 3.
+\end{organizeresumo}
+
+\clearpage
+\begin{organizeresumo}[ABSTRACT]
+\thispagestyle{organizepre}
+\begin{otherlanguage*}{english}
+Abstract text without indentation.\\
+\textbf{Keywords:} term 1; term 2; term 3.
+\end{otherlanguage*}
+\end{organizeresumo}
+\clearpage
+
+\pdfbookmark[0]{\contentsname}{toc}
+{\pagestyle{organizepre}\thispagestyle{organizepre}%
+ \begingroup\begin{spacing}{1.5}\tableofcontents*\end{spacing}\endgroup}
+\cleardoublepage
+
+\textual
+\pagestyle{organize}
+\aliaspagestyle{plain}{organize}
+\aliaspagestyle{empty}{organize}
+\thispagestyle{organize}
+
+\section{Introdução}
+Conteúdo introdutório em Open Sans 12 pt, espaçamento 1,5, recuo 1,25 cm.
+
+\section{Diretrizes de uso}
+\begin{itemize}[leftmargin=1.25cm]
+  \item Compile com `latexmk -xelatex` para preservar as fontes OpenType.
+  \item Altere margens ou espaçamentos em `\\geometry` conforme a necessidade do documento.
+  \item O rodapé e o cabeçalho podem ser removidos editando os comandos `\\organizecabecalho` e `\\organizerodape`.
+\end{itemize}
+
+\section{Conclusão}
+Síntese final.
+
+\postextual
+
+\renewcommand{\bibname}{REFERÊNCIAS}
+\renewcommand{\bibsection}{%
+  \begin{center}\OrganizeHeading\bfseries\MakeUppercase{\bibname}\end{center}%
+  \vspace{0.6cm}%
+  \addcontentsline{toc}{section}{\bibname}%
+}
+
+\bibliographystyle{abntex2-alf-local}
+\begin{filecontents*}{\jobname.bib}
+@book{exemplo,
+  author = {Autor, Fulano},
+  title = {Livro de Exemplo},
+  year = {2020},
+  publisher = {Editora X},
+  address = {São Paulo}
+}
+\end{filecontents*}
+\bibliography{\jobname}
+
+\end{document}

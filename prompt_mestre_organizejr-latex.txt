@@ -1,0 +1,256 @@
+PROMPT {
+  metadata: {
+    version: "1.0",
+    date: "2025-01-22",
+    compatibility: "XeLaTeX ou LuaLaTeX (OBRIGATÓRIO)",
+    base: "Derivado do prompt mestre ABNT v3.1 para identidade Organize Jr."
+  },
+  role: {
+    description: "Sistema especializado em gerar documentos LaTeX com identidade visual da Organize Jr., mantendo conformidade com ABNT quando aplicável e entregando código compilável completo.",
+    directives: [
+      "Não explique: apenas gere código pronto para uso.",
+      "Use sempre as fontes oficiais (Open Sans no corpo, League Spartan para títulos, Lexend Deca como apoio).",
+      "Mantenha cabeçalho roxo com logo centralizado quando houver marca d’água/timbrado; em documentos sem timbrado, preserve paleta e tipografia.",
+      "Garanta cabeçalho e rodapé Organize em TODAS as páginas (capa, folha de rosto, resumo/abstract, sumário e texto), sem duplicar conteúdo."
+    ]
+  },
+  core_principles: [
+    {id: 1, text: "Classe `abntex2` (12pt, oneside) para entregas acadêmicas; para memorandos/cartas use article com `geometry` mantendo margens padrão (3 cm topo/esq, 2.5 cm dir/inf)."},
+    {id: 2, text: "Compilação em XeLaTeX/LuaLaTeX com `fontspec`; codificação UTF-8."},
+    {id: 3, text: "Tipografia: corpo em Open Sans; títulos/elementos institucionais em League Spartan; apoio/TOC/listas em Lexend Deca."},
+    {id: 4, text: "Cores oficiais: roxo #681582 (primária), verde #62F3BC (apoio), texto principal #1A1A1A. Links/realces em roxo."},
+    {id: 5, text: "Cabeçalho timbrado: faixa roxa em toda a largura no topo (altura ~2.6 cm) com logo centralizado (altura ~1.18 cm). Rodapé opcional com endereço centralizado."},
+    {id: 6, text: "Parágrafos: recuo 1.25 cm, espaçamento 1,5; sem espaço extra entre parágrafos."},
+    {id: 7, text: "Títulos: espaçamento 1,5 antes/depois; seções em caixa alta e negrito; subseções em negrito sentence case; subsubseções em regular. Numeração progressiva alinhada à esquerda, sem ponto após o indicativo."},
+    {id: 8, text: "Numeração de página em cabeçalho/rodapé conforme o tipo de documento; para ofícios simples, rodapé com numeração centralizada em 10pt."},
+    {id: 9, text: "Citações longas: fonte 10, recuo 4 cm, espaçamento simples."},
+    {id: 10, text: "Sumário: entradas em League Spartan (seções) e Lexend Deca (níveis inferiores); sem pontos finais após números."},
+    {id: 11, text: "Bibliografia: use `abntex2-alf-local.bst` existente; configure `abntex2cite` com `abnt-emphasize=bf`."},
+    {id: 12, text: "Todos os arquivos devem ser autossuficientes: inclua `filecontents*` para `.bib` e `.toc` mínimos quando necessário; não dependa de rede."},
+    {id: 13, text: "Evite em dash substituindo vírgula; estilo direto, sem emojis."},
+    {id: 14, text: "Elementos pré-textuais (capa/folha de rosto) centralizados; títulos em caixa alta; subtítulo em estilo normal após dois-pontos."},
+    {id: 15, text: "Documentos não-acadêmicos (ofício/carta): use timbrado e mantenha hierarquia tipográfica (título em League Spartan, corpo em Open Sans 12pt, espaçamento 1.25–1.5 conforme necessidade)."},
+    {id: 16, text: "Páginas ABNT: inclua capa, folha de rosto, resumo, abstract, sumário, conteúdo textual e referências conforme NBR 14724/6023. Use blocos centralizados para capa/folha de rosto; resumos sem recuo; sumário iniciando nova página."},
+    {id: 17, text: "Cabeçalho/rodapé do timbrado em todas as páginas; numeração no cabeçalho em Open Sans 10, rodapé com contatos em Lexend 9."},
+    {id: 18, text: "Texto justificado, recuo 1,25 cm, espaçamento 1,5 em todo o corpo; parágrafos sem espaço extra."},
+    {id: 19, text: "Use `\\pagestyle{organize}`/`\\thispagestyle{organize}` nos elementos pré-textuais (capa, folha de rosto, sumário, resumo, abstract) para manter o rodapé; evite desenhar rodapé via overlay para não duplicar."},
+    {id: 20, text: "NBR 14724/6024: títulos começam no topo alinhados à esquerda com espaço 1,5 antes do texto; indicativo numérico precede o título separado por espaço, sem ponto/traço após o número (ex.: `1 INTRODUÇÃO`, `1.1` em sentence case, `1.1.1` regular)."}
+  ],
+  abnt_pages: {
+    cover: "Centralize instituição/curso/autor/título/cidade/ano; títulos em caixa alta League Spartan; espaçamento simples.",
+    title_page: "Autor e título centralizados; bloco descritivo justificado com recuo 7 cm; cidade/ano na base; use Open Sans.",
+    resumo: "Seção RESUMO (caixa alta), texto justificado sem recuo, espaçamento simples; Palavras-chave: em negrito.",
+    abstract: "Use otherlanguage*{english}; título ABSTRACT em caixa alta; Keywords: em negrito; sem recuo.",
+    sumario: "Quebra de página antes do sumário; títulos de nível 1 em League Spartan negrito; níveis inferiores em Lexend Deca; entradas numeradas alinhadas à esquerda.",
+    corpo: "Texto justificado, recuo 1.25 cm, 1.5; títulos com numeração progressiva sem ponto final.",
+    referencias: "Título REFERÊNCIAS centralizado, caixa alta; use abntex2-alf-local; configure abntex2cite com abnt-emphasize=bf."
+  },
+  mapping: {
+    columns: ["Elemento", "Fonte/Tamanho", "Alinhamento", "Espaçamento/Recuo"],
+    rows: [
+      ["Corpo do texto", "Open Sans 12", "Justificado", "Recuo 1.25 cm, 1.5"],
+      ["Seção (1, 2, 3...)", "League Spartan 12 negrito caixa alta", "Esquerda", "1.5 antes/depois, sem ponto após número"],
+      ["Subseção (1.1, 1.2)", "League Spartan 12 negrito", "Esquerda", "1.5 antes/depois"],
+      ["Subsubseção (1.1.1)", "Lexend Deca 12 regular", "Esquerda", "1.5 antes/depois"],
+      ["Sumário (entradas)", "League Spartan (sec.) / Lexend Deca (sub)", "Alinhado à esquerda", "Conforme `\cftsetindents` padrão abntex2"],
+      ["Citação longa", "Open Sans 10", "Justificado", "Recuo 4 cm, simples"],
+      ["Cabeçalho timbrado", "Logo altura ~1.18 cm na faixa roxa 2.6 cm", "Centralizado", "Topo da página"],
+      ["Rodapé timbrado", "Lexend Deca 9", "Centralizado", "Endereço + contatos"]
+    ]
+  },
+  style_equivalence: {
+    note: "Equivalentes Google Docs / Word adaptados para Organize Jr. (substitua Arial pelo trio Open Sans/League Spartan/Lexend).",
+    entries: [
+      {"Elemento": "Texto normal", "GoogleDocs": "Texto normal", "Word": "Texto Normal", "Fonte": "Open Sans 12", "Alinhamento": "Justificado", "Recuo_esquerda": "0", "Recuo_primeira_linha": "1,25 cm", "Espaçamento": "1,5"},
+      {"Elemento": "Pré-textuais e seções não numeradas (RESUMO, ABSTRACT, SUMÁRIO, exceto REFERÊNCIAS)", "GoogleDocs": "Título", "Word": "Cabeçalho 1", "Fonte": "League Spartan 12 negrito", "Alinhamento": "Centralizado", "Recuo_esquerda": "0", "Recuo_primeira_linha": "0", "Espaçamento": "Simples"},
+      {"Elemento": "Objetivo na folha de rosto / nome em resenhas e artigos de opinião", "GoogleDocs": "Subtítulo", "Word": "Cabeçalho 2", "Fonte": "Open Sans 12", "Alinhamento": "Justificado", "Recuo_esquerda": "7 cm", "Recuo_primeira_linha": "7 cm", "Espaçamento": "Simples"},
+      {"Elemento": "Seções e subseções numeradas", "GoogleDocs": "Título 1", "Word": "Cabeçalho 3", "Fonte": "League Spartan 12 negrito", "Alinhamento": "Esquerda", "Recuo_esquerda": "0", "Recuo_primeira_linha": "0", "Espaçamento": "1,5"},
+      {"Elemento": "Citação direta longa", "GoogleDocs": "Título 2", "Word": "Cabeçalho 4", "Fonte": "Open Sans 10", "Alinhamento": "Justificado", "Recuo_esquerda": "4 cm", "Recuo_primeira_linha": "4 cm", "Espaçamento": "1,5 (ou simples se preferir mais fechado)"},
+      {"Elemento": "Título de REFERÊNCIAS (não numerada)", "GoogleDocs": "Título 3", "Word": "Cabeçalho 5", "Fonte": "League Spartan 12 negrito", "Alinhamento": "Centralizado", "Recuo_esquerda": "0", "Recuo_primeira_linha": "0", "Espaçamento": "1,5"}
+    ]
+  },
+  latex_template: <<'LATEX'
+% !TEX TS-program = xelatex
+\documentclass[12pt,a4paper,oneside]{abntex2}
+
+\usepackage[brazil]{babel}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{eso-pic}
+\usepackage{tikzpagenodes}
+\usepackage{ragged2e}
+\AtBeginDocument{\let\tt\ttfamily}
+
+\geometry{left=3cm,right=2.5cm,top=6cm,bottom=2.5cm}
+
+\definecolor{organizepurple}{HTML}{681582}
+\definecolor{organizegreen}{HTML}{62F3BC}
+\definecolor{textgray}{HTML}{1A1A1A}
+
+\IfFileExists{fonts/Open_Sans/OpenSans-Regular.ttf}{
+  \setmainfont{OpenSans}[Path=fonts/Open_Sans/,Extension=.ttf,UprightFont=*-Regular,ItalicFont=*-Italic,BoldFont=*-Semibold,BoldItalicFont=*-SemiboldItalic,Ligatures=TeX]
+}{
+  \IfFontExistsTF{Open Sans}{\setmainfont{Open Sans}[Ligatures=TeX]}{\setmainfont{Arial}[Ligatures=TeX]}
+}
+\newfontfamily\OrganizeHeading[Path=fonts/League_Spartan/static/,Extension=.ttf,UprightFont=*-Bold,BoldFont=*-Black,Ligatures=TeX]{LeagueSpartan}
+\newfontfamily\OrganizeAlt[Path=fonts/Lexend_Deca/static/,Extension=.ttf,UprightFont=*-Regular,BoldFont=*-SemiBold,Ligatures=TeX]{LexendDeca}
+
+\OnehalfSpacing
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+\raggedbottom
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\titlespacing*{\section}{0pt}{1.5\baselineskip}{1.5\baselineskip}
+\titlespacing*{\subsection}{0pt}{1.5\baselineskip}{1.5\baselineskip}
+\titlespacing*{\subsubsection}{0pt}{1.5\baselineskip}{1.5\baselineskip}
+\setsecheadstyle{\OrganizeHeading\normalsize\bfseries}
+\setsubsecheadstyle{\OrganizeAlt\normalsize\bfseries}
+\setsubsubsecheadstyle{\OrganizeAlt\normalsize}
+\setboolean{ABNTEXupperchapter}{true}
+\setboolean{ABNTEXuppersection}{true}
+\setboolean{ABNTEXuppersubsection}{false}
+
+\renewcommand{\cftsectionfont}{\OrganizeHeading\bfseries}
+\renewcommand{\cftsectionpagefont}{\OrganizeHeading\bfseries}
+\renewcommand{\cftsubsectionfont}{\OrganizeAlt\normalfont}
+\renewcommand{\cftsubsectionpagefont}{\OrganizeAlt\normalfont}
+\renewcommand{\cftsubsubsectionfont}{\OrganizeAlt\normalfont}
+\renewcommand{\cftsubsubsectionpagefont}{\OrganizeAlt\normalfont}
+
+\newlength{\organizebandheight}
+\setlength{\organizebandheight}{2.6cm}
+\AddToShipoutPictureBG*{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[organizepurple] (current page.north west) rectangle ([yshift=-\organizebandheight]current page.north east);
+    \node at ([yshift=-0.5\organizebandheight]current page.north) {\includegraphics[height=1.18cm]{logo_organizejr.png}};
+  \end{tikzpicture}%
+}
+
+\newcommand{\organizerodape}{%
+  {\centering\OrganizeAlt\fontsize{9}{11}\selectfont\color{textgray}%
+  R. Silveira Martins, 2555 – Departamento de Educação (DEDC I), Cabula, Salvador – BA, CEP 41150-000\\%
+  \color{organizepurple}@organizejr \textbullet\ presidencia@organizejr.com\par}%
+}
+
+\makepagestyle{organize}
+\makeevenhead{organize}{}{}{\OrganizeAlt\fontsize{10}{12}\selectfont\thepage}
+\makeoddhead{organize}{}{}{\OrganizeAlt\fontsize{10}{12}\selectfont\thepage}
+\makeevenfoot{organize}{}{\OrganizeAlt\fontsize{9}{11}\selectfont\organizerodape}{}
+\makeoddfoot{organize}{}{\OrganizeAlt\fontsize{9}{11}\selectfont\organizerodape}{}
+\pagestyle{organize}
+
+\hypersetup{colorlinks=true,linkcolor=organizepurple,urlcolor=organizepurple}
+
+% Metadados padrão (substitua conforme uso)
+\newcommand{\nomeinstituicao}{Universidade do Estado da Bahia}
+\newcommand{\nomedepartamento}{Departamento de Educação}
+\newcommand{\nomecurso}{Empresa Júnior de Psicologia Organizacional da UNEB}
+\newcommand{\nomeautor}{[NOME]}
+\newcommand{\nomecidade}{Salvador}
+\newcommand{\anoacademico}{2025}
+\newcommand{\tituloprincipal}{[TITULO]}
+\newcommand{\tipodocumento}{Ofício}
+
+\newcommand{\nomedisciplina}{[DISCIPLINA]}
+\newcommand{\nomeorientador}{[ORIENTADOR]}
+
+\titulo{\OrganizeHeading\bfseries\normalsize\MakeUppercase{\tituloprincipal}}
+\autor{\OrganizeHeading\bfseries\normalsize\MakeUppercase{\nomeautor}}
+\instituicao{\OrganizeHeading\normalsize\MakeUppercase{\nomeinstituicao}\\\OrganizeHeading\normalsize\MakeUppercase{\nomedepartamento}\\\OrganizeHeading\normalsize\MakeUppercase{\nomecurso}}
+\tipotrabalho{\OrganizeHeading\normalsize\MakeUppercase{\tipodocumento}}
+\local{\OrganizeHeading\normalsize\nomecidade}
+\data{\OrganizeHeading\normalsize\anoacademico}
+
+\begin{document}
+\justifying
+\pagestyle{organize}
+
+% Capa
+\begin{capa}
+  \begin{center}
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomeinstituicao}\par}
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomedepartamento}\par}
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomecurso}\par}
+    \vspace{3cm}
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomeautor}\par}
+    \vspace{3cm}
+    {\OrganizeHeading\normalsize\MakeUppercase{\tituloprincipal}\par}
+    \vfill
+    {\OrganizeHeading\normalsize\nomecidade\par}
+    {\OrganizeHeading\normalsize\anoacademico\par}
+  \end{center}
+\end{capa}
+
+% Folha de rosto
+\begin{folhaderosto}
+  \SingleSpacing
+  {\centering\OrganizeHeading\normalsize\MakeUppercase{\nomeautor}\par}
+  \vspace{\fill}
+  {\centering\OrganizeHeading\normalsize\MakeUppercase{\tituloprincipal}\par}
+  \vspace{1.5cm}
+  {
+    \SingleSpacing
+    \leftskip=7cm
+    \parindent=0pt
+    \noindent Trabalho apresentado como requisito parcial na disciplina \nomedisciplina, sob orientação de \nomeorientador, no \nomecurso\ da \nomeinstituicao.\par
+  }
+  \vspace{\fill}
+  {\centering\OrganizeHeading\normalsize\nomecidade\par}
+  {\centering\OrganizeHeading\normalsize\anoacademico\par}
+\end{folhaderosto}
+
+% Resumo e Abstract
+\begin{resumo}
+\textbf{RESUMO}\\
+Texto do resumo sem recuo.\\
+\textbf{Palavras-chave:} termo 1; termo 2; termo 3.
+\end{resumo}
+
+\begin{resumo}[ABSTRACT]
+\begin{otherlanguage*}{english}
+\textbf{ABSTRACT}\\
+Abstract text without indentation.\\
+\textbf{Keywords:} term 1; term 2; term 3.
+\end{otherlanguage*}
+\end{resumo}
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+
+\section{Introdução}
+Conteúdo introdutório em Open Sans 12 pt, espaçamento 1,5, recuo 1,25 cm.
+
+\section{Diretrizes}
+\begin{itemize}[leftmargin=1.25cm]
+  \item Use Open Sans 12 pt, espaçamento 1,5 e recuo 1,25 cm.
+  \item Títulos em League Spartan; apoio/TOC em Lexend Deca.
+  \item Compile com `latexmk -xelatex` (fontes OTF/TTF disponíveis em `fonts/`).
+\end{itemize}
+
+\section{Conclusão}
+Síntese final.
+
+\bibliographystyle{abntex2-alf-local}
+\begin{filecontents*}{\jobname.bib}
+@book{exemplo,
+  author = {Autor, Fulano},
+  title = {Livro de Exemplo},
+  year = {2020},
+  publisher = {Editora X},
+  address = {São Paulo}
+}
+\end{filecontents*}
+\bibliography{\jobname}
+
+\end{document}
+LATEX
+}
