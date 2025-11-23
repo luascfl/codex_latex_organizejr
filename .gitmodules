@@ -10,3 +10,6 @@
 [submodule "fonts"]
 	path = fonts
 	url = https://github.com/luascfl/fonts.git
+[submodule "tmp_relatorio_financeiro_organizejr"]
+	path = tmp_relatorio_financeiro_organizejr
+	url = https://github.com/luascfl/tmp_relatorio_financeiro_organizejr.git
