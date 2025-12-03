@@ -13,3 +13,9 @@
 [submodule "tmp_relatorio_financeiro_organizejr"]
 	path = tmp_relatorio_financeiro_organizejr
 	url = https://github.com/luascfl/tmp_relatorio_financeiro_organizejr.git
+[submodule "tmp_relatorio_reflexivo_dpr"]
+	path = tmp_relatorio_reflexivo_dpr
+	url = https://github.com/luascfl/tmp_relatorio_reflexivo_dpr.git
+[submodule "tmp_pesquisa_clareza_estrategica"]
+	path = tmp_pesquisa_clareza_estrategica
+	url = https://github.com/luascfl/tmp_pesquisa_clareza_estrategica.git

@@ -23,9 +23,9 @@ PROMPT {
     {id: 6, text: "Espaçamento entre linhas 1,5 no corpo; sem espaço extra entre parágrafos; elementos pré-textuais em espaçamento simples (exceto sumário, que usa 1,5)."},
     {id: 7, text: "Alinhamento: texto justificado, títulos alinhados à esquerda, pré-textuais centralizados."},
     {id: 8, text: "Saída 100% compilável com referências BibTeX embutidas via `filecontents*`, lendo o `.bst` local (`abntex2-alf-local`)."},
-    {id: 9, text: "Pré-textuais em caixa alta/negrito para instituição/curso/autor/tipo/cidade/ano; subtítulo permanece em estilo normal após dois-pontos."},
+    {id: 9, text: "Pré-textuais como instituição/curso/autor/tipo/cidade/ano utilizam League Spartan (OrganizeHeading). O título principal (sempre em League Spartan, negrito) e o subtítulo (em Open Sans, normal, sem negrito) devem ser formatados como 'TÍTULO: SUBTÍTULO'."},
     {id: 10, text: "Numeração apenas a partir da introdução, cabeçalho direito em Open Sans 10; pré-textuais não exibem número."},
-    {id: 11, text: "Resumo e Abstract sem recuo inicial, com `Palavras-chave:`/`Keywords:` em negrito e iniciais maiúsculas; separar termos por ponto final (ex.: `Palavras-chave: Organize. Teste. Lorem-ipsum.`)."},
+    {id: 11, text: "Resumo e Abstract sem recuo inicial. Adicione uma quebra de linha (`\\par`) antes de `Palavras-chave:`/`Keywords:`. O cabeçalho 'Palavras-chave:'/'Keywords:' deve ser em negrito e com iniciais maiúsculas; separe os termos por ponto final (ex.: `Palavras-chave: Organize. Teste. Lorem-ipsum.`)."},
     {id: 12, text: "Títulos RESUMO, ABSTRACT, SUMÁRIO e REFERÊNCIAS em caixa alta 12pt, garantindo aparição correta no PDF."},
     {id: 13, text: "Planeje ~2.7k–3.1k caracteres por página (450–520 palavras); em 5 páginas, busque 13.5k–15.5k caracteres."},
     {id: 14, text: "Valores padrão na ausência de informações: Universidade do Estado da Bahia, Organize Jr., Salvador, 2025."},
@@ -40,8 +40,8 @@ PROMPT {
     {id: 23, text: "Sumário sempre começa em nova página (quebra antes) e termina com outra quebra para separar a parte textual."},
     {id: 24, text: "Seções primárias (indicativo 1, 2, 3, ...) iniciam nova página, em caixa alta e negrito, alinhadas à esquerda, corpo 12; sem traço/ponto após o número."},
     {id: 25, text: "Subseções (1.1, 1.1.1, ...) permanecem na mesma página; seções secundárias em negrito sentence case, níveis inferiores sem negrito, todos alinhados à esquerda em 12pt; numeração progressiva sem sinais após o indicativo e coincidente com o sumário."},
-    {id: 26, text: "Capa: alinhamento central; topo da página com logo da instituição (Organize) e nome da instituição, seguido de departamento/curso/empresa; depois autores; título e subtítulo (título caixa alta/negrito, subtítulo normal) no meio da página; cidade e ano no rodapé da página."},
-    {id: 27, text: "Folha de rosto: nomes dos autores posicionados próximo ao topo; título/subtítulo centralizados; depois o objetivo do texto em bloco justificado com recuo 7 cm; cidade e ano no rodapé; usar fonte pré-textual."},
+    {id: 26, text: "Capa: Alinhamento central. No topo, logo e dados institucionais (instituição, departamento/curso). Em seguida, autores. O título principal (League Spartan, negrito) e o subtítulo (Open Sans, normal) são centralizados verticalmente na metade superior da página usando espaçamento elástico (`\\vfill`). Cidade e ano no rodapé."},
+    {id: 27, text: "Folha de rosto: Nomes dos autores posicionados próximo ao topo. O título principal (League Spartan, negrito) e o subtítulo (Open Sans, normal) são centralizados verticalmente com o bloco descritivo (objetivo) entre o autor e o rodapé da página, utilizando espaçamento elástico (`\\vspace{\\fill}`). O objetivo do texto deve ser um bloco justificado com recuo de 7 cm, em fonte principal do documento (Open Sans)."},
     {id: 28, text: "Numeração progressiva deve ser contínua em todas as seções e subseções e coincidir com as entradas do sumário, sem travessões ou pontos finais."},
     {id: 29, text: "Referências (seção pós-textual) com título centralizado em caixa alta 12pt, seguindo estritamente o estilo `abntex2-alf-local` do diretório."},
     {id: 30, text: "Quando usar capítulos como nível primário, utilize `\\chapter` para o nível 1 e `\\section`/`\\subsection` para níveis seguintes; no sumário, espelhe o template de resenha com recuos: capítulo 0em/1em, seção 0em/2em, subseção 0em/2.5em, subsubseção 0em/3em; entradas em negrito e caixa alta nos níveis primários."},
@@ -55,10 +55,10 @@ PROMPT {
     {id: 38, text: "Entrada de REFERÊNCIAS no sumário deve alinhar com os capítulos, sem recuo extra de numeração; se a seção for não numerada, remova o espaço reservado ao número para manter a coluna à esquerda alinhada como no template de resenha."}
   ],
   abnt_pages: {
-    cover: "Centralize instituição/curso/autor/título/cidade/ano; títulos em caixa alta League Spartan; espaçamento simples.",
-    title_page: "Autor e título centralizados; bloco descritivo justificado com recuo 7 cm; cidade/ano na base; use Open Sans.",
-    resumo: "Seção RESUMO (caixa alta), texto justificado sem recuo, espaçamento simples; Palavras-chave: em negrito.",
-    abstract: "Use otherlanguage*{english}; título ABSTRACT em caixa alta; Keywords: em negrito; sem recuo.",
+    cover: "Centralize instituição/curso/autor/título/cidade/ano. Título principal em League Spartan (negrito) e subtítulo em Open Sans (normal), ambos em caixa alta. Garanta espaçamento elástico vertical (`\\vfill`) para um layout equilibrado.",
+    title_page: "Autor e bloco (título principal - League Spartan negrito, subtítulo - Open Sans normal, e objetivo) centralizados verticalmente. Bloco descritivo justificado com recuo de 7 cm. Cidade/ano na base. Utilizar fonte principal (Open Sans) para texto do objetivo.",
+    resumo: "Seção RESUMO (caixa alta), texto justificado sem recuo, espaçamento simples. Uma quebra de linha (`\\par`) é obrigatória antes de 'Palavras-chave:', que deve estar em negrito.",
+    abstract: "Use `otherlanguage*{english}`; título ABSTRACT em caixa alta. Uma quebra de linha (`\\par`) é obrigatória antes de 'Keywords:', que deve estar em negrito. Texto sem recuo.",
     sumario: "Quebra de página antes do sumário; títulos de nível 1 em League Spartan negrito; níveis inferiores em Lexend Deca; entradas numeradas alinhadas à esquerda.",
     corpo: "Texto justificado, recuo 1.25 cm, 1.5; títulos com numeração progressiva sem ponto final.",
     referencias: "Título REFERÊNCIAS centralizado, caixa alta; use abntex2-alf-local; configure abntex2cite com abnt-emphasize=bf."
@@ -236,12 +236,13 @@ PROMPT {
 \newcommand{\nomecidade}{Salvador}
 \newcommand{\anoacademico}{2025}
 \newcommand{\tituloprincipal}{[TITULO]}
+\newcommand{\titulocomplemento}{[SUBTITULO]}
 \newcommand{\tipodocumento}{Ofício}
 
 \newcommand{\nomedisciplina}{[DISCIPLINA]}
 \newcommand{\nomeorientador}{[ORIENTADOR]}
 
-\titulo{\OrganizeHeading\bfseries\normalsize\MakeUppercase{\tituloprincipal}}
+\titulo{\OrganizeHeading\bfseries\normalsize\MakeUppercase{\tituloprincipal}: {\normalfont\normalsize\MakeUppercase{\titulocomplemento}}}
 \autor{\OrganizeHeading\bfseries\normalsize\MakeUppercase{\nomeautor}}
 \instituicao{\OrganizeHeading\normalsize\MakeUppercase{\nomeinstituicao}\\\OrganizeHeading\normalsize\MakeUppercase{\nomedepartamento}\\\OrganizeHeading\normalsize\MakeUppercase{\nomecurso}}
 \tipotrabalho{\OrganizeHeading\normalsize\MakeUppercase{\tipodocumento}}
@@ -258,11 +259,10 @@ PROMPT {
     {\OrganizeHeading\normalsize\MakeUppercase{\nomeinstituicao}\par}
     {\OrganizeHeading\normalsize\MakeUppercase{\nomedepartamento}\par}
     {\OrganizeHeading\normalsize\MakeUppercase{\nomecurso}\par}
-    \vspace{1.2cm}
-    {\OrganizeHeading\normalsize\MakeUppercase{\nomeautor}\par}
     \vfill
-    {\OrganizeHeading\normalsize\MakeUppercase{\tituloprincipal}\par}
-    {\OrganizeHeading\normalsize\titulocomplemento\par}
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomeautor}\par}
+    \vspace{1.5cm}
+    {\OrganizeHeading\normalsize\MakeUppercase{\tituloprincipal}: {\normalfont\normalsize\MakeUppercase{\titulocomplemento}}\par}
     \vfill
     {\OrganizeHeading\normalsize\nomecidade\par}
     {\OrganizeHeading\normalsize\anoacademico\par}
@@ -273,31 +273,30 @@ PROMPT {
 \begin{folhaderosto}
   \SingleSpacing
   {\centering\OrganizeHeading\normalsize\MakeUppercase{\nomeautor}\par}
-  \vspace{1.5cm}
-  {\centering\OrganizeHeading\normalsize\MakeUppercase{\tituloprincipal}\par}
-  {\centering\OrganizeHeading\normalsize\titulocomplemento\par}
+  \vspace{\fill}
+  {\centering\OrganizeHeading\normalsize\MakeUppercase{\tituloprincipal}: {\normalfont\normalsize\MakeUppercase{\titulocomplemento}}\par}
   \vspace{1.5cm}
   {
     \SingleSpacing
     \leftskip=7cm
     \parindent=0pt
-    \noindent Trabalho apresentado como requisito parcial na disciplina \nomedisciplina, sob orientação de \nomeorientador, no \nomecurso\ da \nomeinstituicao.\par
+    \noindent Trabalho apresentado como requisito parcial na disciplina \nomedisciplina, sob orientação de \nomeorientador, no \nomecurso\ da \nomeinstituicao}.\par
   }
-  \vfill
+  \vspace{\fill}
   {\centering\OrganizeHeading\normalsize\nomecidade\par}
-  {\centering\OrganizeHeading\normalsize\anoacademico\par}
+  {\centering\OrganizeHeading\normalsize\anoacademico}\par
 \end{folhaderosto}
 
 % Resumo e Abstract
 \begin{resumo}
-Texto do resumo sem recuo.
+Texto do resumo sem recuo.\par
 \textbf{Palavras-chave:} termo 1. termo 2. termo 3.
 \end{resumo}
 
 \begin{resumo}[ABSTRACT]
 \begin{otherlanguage*}{english}
-Abstract text without indentation.
-\textbf{Keywords:} term 1. term 2. term 3.
+Abstract text without indentation.\par
+\textbf{Keywords:} termo 1. termo 2. termo 3.
 \end{otherlanguage*}
 \end{resumo}
 
