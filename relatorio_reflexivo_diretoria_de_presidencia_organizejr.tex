@@ -1,0 +1,257 @@
+\begin{filecontents*}{\jobname.bib}
+@book{silva2020,
+  author    = {Silva, Ana},
+  title     = {Metodologia da Pesquisa},
+  year      = {2020},
+  publisher = {Editora Acad{\^e}mica},
+  address   = {S{\~a}o Paulo}
+}
+@article{pereira2022,
+  author  = {Pereira, Jo{\~a}o},
+  title   = {Inova{\c c}{\~a}o em Organiza{\c c}{\~o}es},
+  journal = {Revista Brasileira de Gest{\~a}o},
+  year    = {2022},
+  volume  = {18},
+  number  = {2},
+  pages   = {45--59}
+}
+\end{filecontents*}
+
+\documentclass[12pt,a4paper,oneside]{abntex2}
+
+\usepackage[brazil]{babel}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[alf,abnt-emphasize=bf]{abntex2cite}
+\usepackage{etoolbox}
+\usepackage{xparse}
+\usepackage{chngcntr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{eso-pic}
+\usepackage{tikzpagenodes}
+\usepackage{ragged2e}
+\usepackage{indentfirst}
+\usepackage{lipsum}
+\AtBeginDocument{\let\tt\ttfamily}
+
+% Margens ABNT (texto) — timbrado cobre toda a p{\'a}gina no overlay
+\geometry{a4paper,left=3cm,right=2cm,top=3cm,bottom=2cm}
+
+\definecolor{organizepurple}{HTML}{681582}
+\definecolor{organizegreen}{HTML}{62F3BC}
+\definecolor{textgray}{HTML}{1A1A1A}
+
+\IfFileExists{fonts/Open_Sans/OpenSans-Regular.ttf}{
+  \setmainfont{OpenSans}[Path=fonts/Open_Sans/,Extension=.ttf,UprightFont=*-Regular,ItalicFont=*-Italic,BoldFont=*-Semibold,BoldItalicFont=*-SemiboldItalic,Ligatures=TeX]
+}{
+  \IfFontExistsTF{Open Sans}{\setmainfont{Open Sans}[Ligatures=TeX]}{\PackageError{fonts}{Open Sans nao encontrada}{Instale Open Sans ou forneca em fonts/Open_Sans}}
+}
+\newfontfamily\OrganizeHeading[Path=fonts/League_Spartan/static/,Extension=.ttf,UprightFont=*-Bold,BoldFont=*-Black,Ligatures=TeX]{LeagueSpartan}
+\newfontfamily\OrganizeAlt[Path=fonts/Lexend_Deca/static/,Extension=.ttf,UprightFont=*-Regular,BoldFont=*-SemiBold,Ligatures=TeX]{LexendDeca}
+
+\OnehalfSpacing
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+\setlength{\footskip}{40pt}
+\raggedbottom
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\titlespacing*{\section}{0pt}{1.5\baselineskip}{1.5\baselineskip}
+\titlespacing*{\subsection}{0pt}{1.5\baselineskip}{1.5\baselineskip}
+\titlespacing*{\subsubsection}{0pt}{1.5\baselineskip}{1.5\baselineskip}
+\cftsetindents{chapter}{0em}{1em}
+\cftsetindents{section}{0em}{2em}
+\cftsetindents{subsection}{0em}{2.5em}
+\cftsetindents{subsubsection}{0em}{3em}
+\setlength{\cftlastnumwidth}{1em}
+\renewcommand{\cftchapterfont}{\OrganizeHeading\bfseries\MakeUppercase}
+\renewcommand{\cftchapterpagefont}{\OrganizeHeading\bfseries}
+\renewcommand{\cftsectionfont}{\OrganizeHeading\bfseries}
+\renewcommand{\cftsectionpagefont}{\OrganizeHeading\bfseries}
+\renewcommand{\cftsubsectionfont}{\OrganizeAlt\normalfont}
+\renewcommand{\cftsubsectionpagefont}{\OrganizeAlt\normalfont}
+\setlength{\cftbeforechapterskip}{0pt}
+\setlength{\cftbeforesectionskip}{0pt}
+\setlength{\cftbeforesubsectionskip}{0pt}
+\renewcommand{\ABNTEXchapterfont}{\OrganizeHeading\normalsize\bfseries}
+\renewcommand{\ABNTEXchapterfontsize}{\normalsize}
+\renewcommand{\ABNTEXsectionfont}{\OrganizeHeading\normalsize\bfseries}
+\renewcommand{\ABNTEXsectionfontsize}{\normalsize}
+\renewcommand{\ABNTEXsubsectionfont}{\OrganizeAlt\normalsize}
+\renewcommand{\ABNTEXsubsectionfontsize}{\normalsize}
+\renewcommand{\ABNTEXsubsubsectionfont}{\OrganizeAlt\normalsize}
+\renewcommand{\ABNTEXsubsubsectionfontsize}{\normalsize}
+\setsecheadstyle{\OrganizeHeading\normalsize\bfseries}
+\setsubsecheadstyle{\OrganizeAlt\normalsize\bfseries}
+\setsubsubsecheadstyle{\OrganizeAlt\normalsize}
+\providecommand{\pretextualfont}{}
+\providecommand{\pretextualchapterfont}{}
+\renewcommand{\pretextualfont}{\OrganizeHeading\normalsize\bfseries}
+\renewcommand{\pretextualchapterfont}{\OrganizeHeading\normalsize\bfseries}
+\setboolean{ABNTEXupperchapter}{true}
+\setboolean{ABNTEXuppersection}{false}
+
+% Quebra para cap{\'\i}tulos e pr{\'e}-textuais
+\pretocmd{\tableofcontents}{\clearpage}{}{}
+\AtBeginEnvironment{resumo}{\clearpage}
+\AtBeginDocument{\pretocmd{\bibliography}{\cleardoublepage\phantomsection}{}{}}
+\preto{\chapter}{\clearpage}
+
+% Alias de cita{\c c}{\~a}o
+\NewDocumentCommand{\autorcite}{s O{} m}{%
+  \IfBooleanTF{#1}%
+    {\hyperlink{cite.#3}{\citeauthoronline{#3} (\citeyear{#3}\IfBlankTF{#2}{}{, p.~#2})}}%
+    {\hyperlink{cite.#3}{(\citeauthoronline{#3}, \citeyear{#3}\IfBlankTF{#2}{}{, p.~#2})}}%
+}
+
+% Timbrado Organize Jr.
+\newlength{\organizebandheight}
+\setlength{\organizebandheight}{2.6cm}
+\newcommand{\organizecabecalho}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[organizepurple] (current page.north west) rectangle ([yshift=-\organizebandheight]current page.north east);
+    \node at ([yshift=-0.5\organizebandheight]current page.north) {\includegraphics[height=1.18cm]{logo_organizejr.png}};
+  \end{tikzpicture}%
+}
+\AddToShipoutPictureBG{\organizecabecalho}
+
+\newcommand{\organizerodape}{%
+  {\centering\OrganizeAlt\fontsize{9}{11}\selectfont\color{textgray}%
+  R. Silveira Martins, 2555 – Departamento de Educa{\c c}{\~a}o (DEDC I), Cabula, Salvador – BA, CEP 41150-000\\%
+  \color{organizepurple}@organizejr \textbullet\ presidencia@organizejr.com\par}%
+}
+
+\setlength{\headheight}{15pt}
+\setlength{\headsep}{1cm}
+\setlength{\footskip}{1.2cm}
+
+\fancypagestyle{organize}{%
+  \fancyhf{}%
+  \fancyhead[R]{\OrganizeAlt\fontsize{10}{12}\selectfont\textcolor{white}{\thepage}}
+  \fancyfoot[C]{\organizerodape}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+\fancypagestyle{organizepre}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\organizerodape}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+\pagestyle{organize}
+\aliaspagestyle{plain}{organize}
+\aliaspagestyle{chapter}{organize}
+\aliaspagestyle{empty}{organize}
+\aliaspagestyle{title}{organize}
+\aliaspagestyle{titlepage}{organize}
+\aliaspagestyle{simple}{organize}
+\aliaspagestyle{abntheadings}{organize}
+
+\hypersetup{colorlinks=true,linkcolor=organizepurple,urlcolor=organizepurple}
+
+% Metadados
+\newcommand{\nomeinstituicao}{Universidade do Estado da Bahia}
+\newcommand{\nomedepartamento}{Departamento de Educa{\c c}{\~a}o}
+\newcommand{\nomecurso}{Organize Jr.}
+\newcommand{\nomeautor}{Lucas Camilo Carvalho}
+\newcommand{\nomecidade}{Salvador}
+\newcommand{\anoacademico}{2025}
+\newcommand{\tituloprincipal}{Relatório Reflexivo Diretoria de Presidência OrganizeJR}
+\newcommand{\titulocomplemento}{Subt{\'\i}tulo de Exemplo}
+\newcommand{\tipodocumento}{Relat{\'o}rio}
+
+\begin{document}
+% Capa
+\begin{capa}
+  \pagestyle{organizepre}\thispagestyle{organizepre}
+  \begin{center}
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomeinstituicao}\par}
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomedepartamento}\par}
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomecurso}\par}
+    \vfill
+    {\OrganizeHeading\normalsize\MakeUppercase{\nomeautor}\par}
+    \vspace{1.5cm}
+            {\OrganizeHeading\normalsize\MakeUppercase{\tituloprincipal}: {\normalfont\normalsize\MakeUppercase{\titulocomplemento}}\par}    \vfill
+    {\OrganizeHeading\normalsize\nomecidade\par}
+    {\OrganizeHeading\normalsize\anoacademico\par}
+  \end{center}
+\end{capa}
+\clearpage
+
+% Folha de rosto
+\begin{folhaderosto}
+  \pagestyle{organizepre}\thispagestyle{organizepre}
+  \pagenumbering{arabic}\setcounter{page}{1}
+  \SingleSpacing
+  {\centering\OrganizeHeading\normalsize\MakeUppercase{\nomeautor}\par}
+  \vspace{\fill}
+  {\centering\OrganizeHeading\normalsize\MakeUppercase{\tituloprincipal}: {\normalfont\normalsize\MakeUppercase{\titulocomplemento}}\par}
+  \vspace{1.5cm}
+  {
+    \SingleSpacing
+    \leftskip=7cm
+    \parindent=0pt
+    \noindent Relat{\'o}rio apresentado {\`a} Organize Jr. como requisito parcial.\par
+  }
+  \vspace{\fill}
+  {\centering\OrganizeHeading\normalsize\nomecidade\par}
+  {\centering\OrganizeHeading\normalsize\anoacademico\par}
+\end{folhaderosto}
+\clearpage
+
+\begin{resumo}
+\pagestyle{organize}
+Texto de resumo sem recuo, espa{\c c}amento simples. \lipsum[1]\par
+\textbf{Palavras-chave:} Organize. Teste. Lorem-ipsum.
+\end{resumo}
+
+\begin{resumo}[ABSTRACT]
+\begin{otherlanguage*}{english}
+Abstract text without indentation. \lipsum[2]\par
+\textbf{Keywords:} Organize. Test. Lorem ipsum.
+\end{otherlanguage*}
+\end{resumo}
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+
+\renewcommand{\bibname}{\MakeUppercase{REFER\^ENCIAS}}
+\renewcommand{\refname}{\MakeUppercase{REFER\^ENCIAS}}
+
+\chapter{INTRODU{\c C}{\~A}O}
+\lipsum[3-4] \autorcite{silva2020}
+
+\chapter{DESENVOLVIMENTO}
+\section{Revis{\~a}o}
+Conforme \autorcite*{pereira2022}, a literatura recente destaca tend{\^e}ncias que precisam ser acompanhadas. \lipsum[5]
+
+\section{Discuss{\~a}o}
+\lipsum[6]
+\subsection{Exemplo de subse{\c c}{\~a}o terci{\'a}ria}
+\lipsum[8]
+
+\begin{citacao}
+O planejamento do texto acad{\^e}mico exige organizar ideias em blocos coerentes, mantendo unidade de sentido e clareza argumentativa ao longo de par{\'a}grafos extensos, mesmo quando a exposi{\c c}{\~a}o ultrapassa quatro linhas e demanda cuidado na pontua{\c c}{\~a}o e nas refer{\^e}ncias \autorcite[45]{silva2020}.
+\end{citacao}
+
+\chapter{CONCLUS{\~A}O}
+\lipsum[7]
+
+\renewcommand{\bibname}{\MakeUppercase{REFER\^ENCIAS}}
+\renewcommand{\bibsection}{%
+  \addtocontents{toc}{\protect\setlength{\protect\cftchapterindent}{0pt}}%
+  \addtocontents{toc}{\protect\setlength{\protect\cftchapternumwidth}{\cftlastnumwidth}}%
+  \chapter*{\bibname}%
+  \addcontentsline{toc}{chapter}{\bibname}%
+}
+
+\bibliographystyle{abntex2-alf-local}
+\bibliography{\jobname}
+\end{document}
