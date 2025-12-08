@@ -52,6 +52,7 @@ PROMPT {
     {id: 35, text: "Sumário: entradas de nível 1 em League Spartan; níveis inferiores em Lexend Deca; sem pontos finais após números e recuos iguais ao template de resenha."},
     {id: 36, text: "Use `\\pagestyle{organize}`/`\\thispagestyle{organize}` também nos pré-textuais (capa, folha de rosto, sumário, resumo, abstract) para manter rodapé; evite duplicar rodapé via overlay."},
     {id: 37, text: "Documentos não-acadêmicos (ofício/carta): mantenha timbrado e hierarquia tipográfica (título em League Spartan, corpo em Open Sans 12pt, espaçamento 1.25–1.5 conforme necessidade) e numeração discreta (cabeçalho ou rodapé central 10pt se for o caso)."},
+    {id: 38, text: "Numeração de páginas: iniciar contagem na folha de rosto (árabe) sem exibir número em capa, folha de rosto e sumário; exibir a partir da INTRODUÇÃO no cabeçalho direito, fonte 10, com valor \"3\" na primeira página textual. Preserve a contagem sequencial nas demais páginas."},
     {id: 38, text: "Entrada de REFERÊNCIAS no sumário deve alinhar com os capítulos, sem recuo extra de numeração; se a seção for não numerada, remova o espaço reservado ao número para manter a coluna à esquerda alinhada como no template de resenha."}
   ],
   abnt_pages: {

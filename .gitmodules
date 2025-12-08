@@ -19,3 +19,6 @@
 [submodule "tmp_pesquisa_clareza_estrategica"]
 	path = tmp_pesquisa_clareza_estrategica
 	url = https://github.com/luascfl/tmp_pesquisa_clareza_estrategica.git
+[submodule "tmp_organizejr_parceria_alcance_contabilidade"]
+	path = tmp_organizejr_parceria_alcance_contabilidade
+	url = https://github.com/luascfl/tmp_organizejr_parceria_alcance_contabilidade.git

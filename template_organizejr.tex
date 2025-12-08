@@ -148,10 +148,10 @@
 \aliaspagestyle{plain}{organize}
 \aliaspagestyle{chapter}{organize}
 \aliaspagestyle{empty}{organize}
-\aliaspagestyle{title}{organize}
-\aliaspagestyle{titlepage}{organize}
+\aliaspagestyle{title}{organizepre}
+\aliaspagestyle{titlepage}{organizepre}
 \aliaspagestyle{simple}{organize}
-\aliaspagestyle{abntheadings}{organize}
+\aliaspagestyle{abntheadings}{organizepre}
 
 \hypersetup{colorlinks=true,linkcolor=organizepurple,urlcolor=organizepurple}
 
@@ -167,6 +167,7 @@
 \newcommand{\tipodocumento}{Relat{\'o}rio}
 
 \begin{document}
+\pagenumbering{gobble}
 % Capa
 \begin{capa}
   \pagestyle{organizepre}\thispagestyle{organizepre}
@@ -206,7 +207,7 @@
 \clearpage
 
 \begin{resumo}
-\pagestyle{organize}
+\pagestyle{organizepre}\thispagestyle{organizepre}
 Texto de resumo sem recuo, espa{\c c}amento simples. \lipsum[1]\par
 \textbf{Palavras-chave:} Organize. Teste. Lorem-ipsum.
 \end{resumo}
@@ -218,9 +219,12 @@ Abstract text without indentation. \lipsum[2]\par
 \end{otherlanguage*}
 \end{resumo}
 
+\pagestyle{organizepre}\thispagestyle{organizepre}
 \pdfbookmark[0]{\contentsname}{toc}
 \tableofcontents*
 \cleardoublepage
+\aliaspagestyle{abntheadings}{organize}
+\pagestyle{organize}\thispagestyle{organize}
 
 \renewcommand{\bibname}{\MakeUppercase{REFER\^ENCIAS}}
 \renewcommand{\refname}{\MakeUppercase{REFER\^ENCIAS}}
