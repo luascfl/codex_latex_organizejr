@@ -21,4 +21,8 @@ create_and_push_repo.sh
 *.log
 *.pdf
 *.toc
-*.xdv
+*.xdv.eslintcache/
+node_modules/
+dist/
+build/
+*.zip
